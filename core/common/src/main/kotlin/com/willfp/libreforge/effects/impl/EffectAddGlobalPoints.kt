@@ -1,18 +1,10 @@
 package com.willfp.libreforge.effects.impl
 
 import com.willfp.eco.core.config.interfaces.Config
-import com.willfp.eco.core.map.nestedMap
-import com.willfp.libreforge.Dispatcher
-import com.willfp.libreforge.NoCompileData
-import com.willfp.libreforge.ProvidedHolder
-import com.willfp.libreforge.arguments
+import com.willfp.libreforge.*
 import com.willfp.libreforge.effects.Effect
 import com.willfp.libreforge.effects.Identifiers
-import com.willfp.libreforge.get
-import com.willfp.libreforge.globalPoints
-import com.willfp.libreforge.points
-import org.bukkit.entity.Player
-import java.util.UUID
+import java.util.*
 
 object EffectAddGlobalPoints : Effect<NoCompileData>("add_global_points") {
     override val arguments = arguments {
@@ -35,13 +27,13 @@ object EffectAddGlobalPoints : Effect<NoCompileData>("add_global_points") {
         tracker[identifiers.uuid] = AddedPoint(
             point, amount
         )
-
+        Debuger.debug("EffectAddGlobalPoints enable")
         globalPoints[point] += amount
     }
 
     override fun onDisable(dispatcher: Dispatcher<*>, identifiers: Identifiers, holder: ProvidedHolder) {
         val addedPoint = tracker[identifiers.uuid] ?: return
-
+        Debuger.debug("EffectAddGlobalDisablePoints")
         globalPoints[addedPoint.point] -= addedPoint.amount
     }
 

@@ -4,11 +4,8 @@ package com.willfp.libreforge.effects
 
 import com.willfp.eco.core.config.interfaces.Config
 import com.willfp.eco.core.registry.Registry
-import com.willfp.libreforge.ConfigViolation
-import com.willfp.libreforge.ConfigWarning
-import com.willfp.libreforge.ViolationContext
+import com.willfp.libreforge.*
 import com.willfp.libreforge.conditions.Conditions
-import com.willfp.libreforge.deprecationMessage
 import com.willfp.libreforge.effects.arguments.EffectArguments
 import com.willfp.libreforge.effects.executors.ChainExecutor
 import com.willfp.libreforge.effects.executors.ChainExecutors
@@ -171,14 +168,13 @@ import com.willfp.libreforge.effects.impl.EffectTriggerNestedChain
 import com.willfp.libreforge.effects.impl.EffectUpdateBossBar
 import com.willfp.libreforge.effects.impl.EffectVictimSpeedMultiplier
 import com.willfp.libreforge.effects.impl.EffectXpMultiplier
-import com.willfp.libreforge.enumValueOfOrNull
 import com.willfp.libreforge.filters.Filters
 import com.willfp.libreforge.integrations.paper.impl.EffectDropPickupItem
 import com.willfp.libreforge.mutators.Mutators
 import com.willfp.libreforge.proxy.loadProxy
-import com.willfp.libreforge.separatorAmbivalent
-import com.willfp.libreforge.toWeightedList
 import com.willfp.libreforge.triggers.Triggers
+import org.bukkit.Bukkit
+import org.bukkit.event.player.PlayerQuitEvent
 import java.util.UUID
 
 object Effects : Registry<Effect<*>>() {
@@ -457,6 +453,45 @@ object Effects : Registry<Effect<*>>() {
             forceRunOrder
         )
     }
+
+
+    /**
+     * Disable all registered effects for all tracked players.
+     */
+    fun disableAllEffectsForTrackedPlayers() {
+        for (onlinePlayer in Bukkit.getOnlinePlayers()) {
+            //val event =  PlayerQuitEvent(onlinePlayer, "Quit")
+            //Bukkit.getPluginManager().callEvent(event)
+            EffectDataFixer.uga(onlinePlayer)
+        //val dispatcher = onlinePlayer.toDispatcher()
+            //dispatcher.killEffects()
+        }
+    }
+
+/*    *//**
+     * Disable this effect for all players that have it active.
+     *//*
+    fun disableForAllTrackedPlayers() {
+        effectCounter.keys.toSet().forEach { uuid ->
+            if (effectCounter[uuid] > 0) {
+                val dispatcher = Bukkit.getPlayer(uuid)?.toDispatcher()
+                if (dispatcher == null) {
+                    plugin.logger.warning("Could not disable effect for player with UUID $uuid because they are not online")
+                } else {
+                    Debuger.debug("Disable effect for player with UUID $uuid")
+                    dispatcher.holders.forEach() { holder ->
+                        {
+                            for (activeEffect in holder.getActiveEffects(dispatcher)) {
+                                activeEffect.disable(dispatcher, holder)
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+    }*/
+
 
     init {
         register(EffectAddDamage)

@@ -2,22 +2,16 @@ package com.willfp.libreforge.effects
 
 import com.willfp.eco.core.config.interfaces.Config
 import com.willfp.eco.core.map.defaultMap
-import com.willfp.libreforge.Compilable
-import com.willfp.libreforge.Dispatcher
-import com.willfp.libreforge.ProvidedHolder
-import com.willfp.libreforge.applyHolder
-import com.willfp.libreforge.generatePlaceholders
-import com.willfp.libreforge.ifType
-import com.willfp.libreforge.mapToPlaceholders
+import com.willfp.libreforge.*
 import com.willfp.libreforge.mutators.MutatorList
 import com.willfp.libreforge.mutators.emptyMutatorList
 import com.willfp.libreforge.plugin
-import com.willfp.libreforge.toDispatcher
 import com.willfp.libreforge.triggers.DispatchedTrigger
 import com.willfp.libreforge.triggers.Trigger
 import com.willfp.libreforge.triggers.TriggerData
 import com.willfp.libreforge.triggers.TriggerParameter
 import com.willfp.libreforge.triggers.Triggers
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.event.Listener
 import java.util.UUID
@@ -121,7 +115,6 @@ abstract class Effect<T>(
         if (isReload && !shouldReload) {
             return
         }
-
         if (effectCounter[dispatcher.uuid] == 0) {
             return
         }
@@ -147,6 +140,7 @@ abstract class Effect<T>(
     ) {
         // Override when needed.
     }
+
 
     /**
      * Trigger the effect.

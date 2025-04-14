@@ -1,6 +1,7 @@
 package com.willfp.libreforge
 
 import com.destroystokyo.paper.event.entity.EntityRemoveFromWorldEvent
+import com.willfp.libreforge.EffectDataFixer.fixAttributes
 import com.willfp.libreforge.EmptyProvidedHolder.holder
 import com.willfp.libreforge.effects.Effects
 import org.bukkit.attribute.Attribute
@@ -10,8 +11,22 @@ import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
+import org.bukkit.metadata.FixedMetadataValue
 
 object EffectDataFixer : Listener {
+
+    @EventHandler(priority = EventPriority.LOWEST)
+    fun onJoin(event: PlayerJoinEvent) {
+        if(isFirstJoin(event.player))return;
+        cleanup(event.player)
+    }
+    fun isFirstJoin(player: Player): Boolean {
+        return player.getMetadata("firstJoin").isEmpty()
+    }
+    fun cleanup(player: Player) {
+        player.setMetadata("firstjoin",FixedMetadataValue(plugin,"false"))
+        player.fixAttributes()
+    }
     @EventHandler(priority = EventPriority.LOWEST)
     fun clearOnQuit(event: PlayerQuitEvent) {
         val player = event.player
@@ -20,7 +35,21 @@ object EffectDataFixer : Listener {
         for ((effect, holder) in dispatcher.providedActiveEffects) {
             effect.disable(dispatcher, holder)
         }
+        Debuger.debug("Fixing attributes")
+        // Extra fix for pre-4.2.3
+        player.fixAttributes()
 
+        dispatcher.updateHolders()
+        dispatcher.purgePreviousHolders()
+    }
+    fun uga(player :Player){
+        val dispatcher = player.toDispatcher()
+
+        for ((effect, holder) in dispatcher.providedActiveEffects) {
+            effect.disable(dispatcher, holder)
+            effect.disable(dispatcher, holder)
+        }
+        Debuger.debug("Fixing attributes")
         // Extra fix for pre-4.2.3
         player.fixAttributes()
 
@@ -48,6 +77,7 @@ object EffectDataFixer : Listener {
             val inst = this.getAttribute(attribute) ?: continue
             val mods = inst.modifiers.filter { it.name.startsWith("libreforge") }
             for (mod in mods) {
+                Debuger.debug("Remove modif instance: $mod")
                 inst.removeModifier(mod)
             }
         }
@@ -63,6 +93,7 @@ object EffectDataFixer : Listener {
                 val inst = this.getAttribute(attribute) ?: continue
                 val mods = inst.modifiers.filter { it.name.startsWith(effect.id) }
                 for (mod in mods) {
+                    Debuger.debug("Remove legacy: "+effect.id)
                     inst.removeModifier(mod)
                 }
             }

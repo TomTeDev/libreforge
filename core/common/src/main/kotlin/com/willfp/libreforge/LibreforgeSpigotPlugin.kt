@@ -45,6 +45,7 @@ import org.bukkit.event.Listener
 internal lateinit var plugin: LibreforgeSpigotPlugin
     private set
 
+var isDisabling:Boolean = false;
 class LibreforgeSpigotPlugin : EcoPlugin() {
     val chainsYml = ChainsYml(this)
     val tagsYml = TagsYml(this)
@@ -72,6 +73,7 @@ class LibreforgeSpigotPlugin : EcoPlugin() {
     }
 
     override fun handleEnable() {
+        isDisabling = false;
         if (this.configYml.getBool("show-libreforge-info")) {
             this.logger.info("")
             this.logger.info("Hey, what's this plugin doing here? I didn't install it!")
@@ -126,6 +128,15 @@ class LibreforgeSpigotPlugin : EcoPlugin() {
         displayModule.reload()
 
         hasLoaded = true
+    }
+
+    override fun handleDisable(){
+        isDisabling = true;
+        Effects.disableAllEffectsForTrackedPlayers()
+    }
+
+    fun isDisabling():Boolean{
+        return isDisabling
     }
 
     override fun createTasks() {

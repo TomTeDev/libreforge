@@ -1,17 +1,13 @@
 package com.willfp.libreforge.effects
 
 import com.willfp.eco.core.config.interfaces.Config
-import com.willfp.libreforge.Compiled
-import com.willfp.libreforge.Dispatcher
-import com.willfp.libreforge.ProvidedHolder
-import com.willfp.libreforge.Weighted
+import com.willfp.libreforge.*
 import com.willfp.libreforge.conditions.ConditionList
 import com.willfp.libreforge.effects.arguments.EffectArgumentList
 import com.willfp.libreforge.effects.events.EffectDisableEvent
 import com.willfp.libreforge.effects.events.EffectEnableEvent
 import com.willfp.libreforge.filters.FilterList
 import com.willfp.libreforge.mutators.MutatorList
-import com.willfp.libreforge.toDispatcher
 import com.willfp.libreforge.triggers.DispatchedTrigger
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player

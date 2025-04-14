@@ -41,6 +41,9 @@ internal class CommandPointsGet(plugin: EcoPlugin): Subcommand(
         }
 
         var amountNum = player?.points?.get(pointString) ?: globalPoints[pointString]
+        val amountNumTemp = player?.points?.getTemp(player,pointString)
+        amountNum+= amountNumTemp?:0.0
+        Debuger.debug("AmountTemp: $amountNumTemp")
 
         sender.sendMessage(plugin.langYml.getMessage("points-amount")
             .replace("%playername%", player?.name ?: "server")

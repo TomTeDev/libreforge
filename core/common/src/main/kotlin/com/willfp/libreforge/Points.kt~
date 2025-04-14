@@ -102,6 +102,14 @@ class PointsMap(
         profile.write(dataKey, value)
     }
 
+/*    fun setTemp(player: Player,key:String,value: Double){
+        Debuger.debug("Set temp  $key to $value")
+        player.setMetadata(key,FixedMetadataValue(plugin, value))
+    }
+
+    fun getTemp(player: Player,key: String): Double {
+        return if (player.hasMetadata(key)) player.getMetadata(key)[0].asDouble() else 0.0
+    }*/
 
     override fun toString(): String {
         return initializedPoints.joinToString(", ") {

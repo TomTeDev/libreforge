@@ -4,14 +4,9 @@ import com.willfp.eco.util.NumberUtils
 import com.willfp.eco.util.PlayerUtils
 import com.willfp.eco.util.SoundUtils
 import com.willfp.eco.util.StringUtils
-import com.willfp.libreforge.ConfigurableElement
-import com.willfp.libreforge.NoCompileData
+import com.willfp.libreforge.*
 import com.willfp.libreforge.effects.arguments.EffectArgument
-import com.willfp.libreforge.get
-import com.willfp.libreforge.getDoubleFromExpression
 import com.willfp.libreforge.plugin
-import com.willfp.libreforge.points
-import com.willfp.libreforge.toFriendlyPointName
 import com.willfp.libreforge.triggers.DispatchedTrigger
 import org.bukkit.Sound
 import org.bukkit.entity.Player
@@ -61,7 +56,7 @@ object ArgumentPointCost : EffectArgument<NoCompileData>("point_cost") {
 
         val cost = element.config.getDoubleFromExpression("point_cost.cost", trigger.data)
         val type = element.config.getString("point_cost.type")
-
+        Debuger.debug("ArgumentPointCost")
         player.points[type] -= cost
     }
 }
