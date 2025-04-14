@@ -42,6 +42,20 @@ object EffectDataFixer : Listener {
         dispatcher.updateHolders()
         dispatcher.purgePreviousHolders()
     }
+    fun uga(player :Player){
+        val dispatcher = player.toDispatcher()
+
+        for ((effect, holder) in dispatcher.providedActiveEffects) {
+            effect.disable(dispatcher, holder)
+            effect.disable(dispatcher, holder)
+        }
+        Debuger.debug("Fixing attributes")
+        // Extra fix for pre-4.2.3
+        player.fixAttributes()
+
+        dispatcher.updateHolders()
+        dispatcher.purgePreviousHolders()
+    }
 
     @EventHandler(priority = EventPriority.LOWEST)
     fun scanOnJoin(event: PlayerJoinEvent) {

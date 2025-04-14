@@ -422,13 +422,7 @@ val Player.activeEffects: List<EffectBlock>
 val Dispatcher<*>.providedActiveEffects: List<ProvidedEffectBlock>
     get() = previousStates[this.uuid]
 
-fun Dispatcher<*>.killEffects(){
-    val effectsActive = this.calculateActiveEffects()
-    Debuger.debug("Killing effects of size: "+effectsActive.size)
-    for ((effect, holder) in effectsActive) {
-        effect.disable(this, holder)
-    }
-}
+
 /**
  * Update the active effects.
  */

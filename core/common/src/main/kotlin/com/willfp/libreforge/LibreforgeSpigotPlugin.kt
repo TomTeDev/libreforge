@@ -132,7 +132,6 @@ class LibreforgeSpigotPlugin : EcoPlugin() {
 
     override fun handleDisable(){
         isDisabling = true;
-        Effects.disableAllEffectsForTrackedPlayers()
     }
 
     fun isDisabling():Boolean{
